@@ -37,6 +37,19 @@
                             v-if="canAddToCart">Add to cart</button>
                     <button disabled="true" class=" btn btn-primary btn-lg"
                             v-else >Add to cart</button>
+
+                    <span class="inventory-message" v-if="product.availableInventory-cartItemCount===0">
+                        ALL OUT!
+                    </span>
+                    <span class="inventory-message" v-else-if="product.availableInventory-cartItemCount<5">
+                        Only {{product.availableInventory-cartItemCount}} left!
+                    </span>
+                    <span class="inventory-message" v-else>
+                        Buy now!
+                    </span>
+                    <div class="rating">
+                        <span  v-for="n in 5">&#9734</span>
+                    </div>
                 </div>
             </div>
             <div v-else>
@@ -143,7 +156,8 @@
                 description: "A 25 pound bag of <em>irresistible</em>, organic goodness for your cat.",
                 price: 2000,
                 image: "assets/images/product-fullsize.png",
-                availableInventory: 5
+                availableInventory: 5,
+                rating:3
             },
             order: {
               firstName:"",
@@ -176,6 +190,9 @@
             },
             submitForm() {
                 alert('Submitted');
+            },
+            checkRating(n, myProduct) {
+                return myProduct.rating - n >= 0;
             }
         },
         computed: {
